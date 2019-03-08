@@ -30,10 +30,10 @@ let mockData = [{
     "count": 26
 }];
 loadData();
-setInterval(function(){
+/*setInterval(function(){
     loadData();
 }, 60000);
-
+*/
 function formatData(data){
     if(data.length === 0){
         return {labels: [], dataset: []};
@@ -89,6 +89,7 @@ function formatData(data){
                         returnData.dataset[returnData.dataset.length - 1] += data[i].count;
                     }
                 }
+                console.log("returnData", returnData);
                 return returnData;
     }
 }
@@ -181,5 +182,19 @@ function showData(type){
     $('.nav-item a').removeClass('active');
     $('#'+ type).addClass('active');
     $('#type').val(type);
+    switch(type){
+        case 'day':
+            $('#datepicker1').val(moment().startOf('month').format('YYYY-MM-DD'));
+            $('#datepicker2').val(moment().endOf('month').format('YYYY-MM-DD'));
+            break;
+        case 'month':
+            $('#datepicker1').val(moment().startOf('year').format('YYYY-MM-DD'));
+            $('#datepicker2').val(moment().endOf('year').format('YYYY-MM-DD'));
+            break;
+        case 'year':
+            $('#datepicker1').val("");
+            $('#datepicker2').val("");
+            break;        
+    }
     loadData();
 }
