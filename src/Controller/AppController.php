@@ -52,6 +52,11 @@ class AppController extends Controller
                 'action' => 'login',
                 'plugin' => false
             ],
+            'loginRedirect' => [
+                'controller' => 'Users',
+                'action' => 'index',
+                'plugin' => false
+            ],
             'authError' => 'You are not authozied to see that page. Please login',
             'authenticate' => [
                 'Form' => [
