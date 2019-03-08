@@ -35,10 +35,22 @@
                 <div class="form-group">
                     <input type="text" id="datepicker1">
                     <input type="text" id="datepicker2">
+                    <input type="hidden" id="type" value="year">
                     <button onClick="javascript:loadData()">Update</button>
                 </div>
             </div>
         </div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="javascript:void(0)" onClick="javascript:showData('year')" id="year">Yearly</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" onClick="javascript:showData('month')" id="month">Monthly</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" onClick="javascript:showData('day')" id="day">Daily</a>
+            </li>
+        </ul>
         <canvas id="myChart"></canvas>
     </fieldset>
 </div>

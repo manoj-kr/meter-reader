@@ -34,14 +34,15 @@ setInterval(function(){
     loadData();
 }, 60000);
 
-function formatData(data, type){
+function formatData(data){
     if(data.length === 0){
         return {labels: [], dataset: []};
     }
     let returnData = [];
     let labels = [];
+    let type = $('#type').val();
     switch(type){
-        case 'yearly':
+        case 'year':
             for(let i = 0; i < data.length; i++){
                 if(returnData.labels === undefined){
                     returnData.labels = [];
@@ -51,13 +52,13 @@ function formatData(data, type){
                 }
                 if(returnData.labels.indexOf(data[i]._id.year) === -1){
                     returnData.labels.push(data[i]._id.year);
-                    returnData.dataset.push(data[i].count / 320);
+                    returnData.dataset.push(data[i].count);
                 }else{
-                    returnData.dataset[returnData.dataset.length - 1] += data[i].count / 320;
+                    returnData.dataset[returnData.dataset.length - 1] += data[i].count;
                 }
             }
             return returnData;
-        case 'monthly': 
+        case 'month': 
             for(let i = 0; i < data.length; i++){
                 if(returnData.labels === undefined){
                     returnData.labels = [];
@@ -66,14 +67,14 @@ function formatData(data, type){
                     returnData.dataset = [];
                 }
                 if(returnData.labels.indexOf(data[i]._id.month) === -1){
-                    returnData.labels.push(data[i]._id.month);
-                    returnData.dataset.push(data[i].count / 320);
+                    returnData.labels.push(data[i]._id.month + ', '+ data[i]._id.year);
+                    returnData.dataset.push(data[i].count);
                 }else{
-                    returnData.dataset[returnData.dataset.length - 1] += data[i].count / 320;
+                    returnData.dataset[returnData.dataset.length - 1] += data[i].count;
                 }
             }
             return returnData;
-        case 'daywise': 
+        case 'day': 
                 for(let i = 0; i < data.length; i++){
                     if(returnData.labels === undefined){
                         returnData.labels = [];
@@ -83,9 +84,9 @@ function formatData(data, type){
                     }
                     if(returnData.labels.indexOf(data[i]._id.day) === -1){
                         returnData.labels.push(data[i]._id.day);
-                        returnData.dataset.push(data[i].count / 320);
+                        returnData.dataset.push(data[i].count);
                     }else{
-                        returnData.dataset[returnData.dataset.length - 1] += data[i].count / 320;
+                        returnData.dataset[returnData.dataset.length - 1] += data[i].count;
                     }
                 }
                 return returnData;
@@ -106,11 +107,13 @@ function loadData(){
     if(endDate){
         params.push('end='+endDate);
     }
+    let type = $('#type').val();
+    params.push('type='+type);
     const queryParams = params.join('&');
-    console.log("queryParams", queryParams);
     if(queryParams !== ''){
         url += '?' + queryParams; 
     }
+    
     $.ajax({
         url: url,
         type: 'GET',
@@ -122,7 +125,7 @@ function loadData(){
             $('.progress').fadeIn();
             $('#amount').html(res.amount.toFixed(2));
             $('#units').html(res.units.toFixed(2));
-            let data = formatData(res.data, 'monthly');
+            let data = formatData(res.data);
             var ctx = document.getElementById("myChart").getContext('2d');
             let config = {
                 type: 'line',
@@ -173,4 +176,10 @@ function loadData(){
             console.log('There was some error while requesting')
         }
     });
+}
+function showData(type){
+    $('.nav-item a').removeClass('active');
+    $('#'+ type).addClass('active');
+    $('#type').val(type);
+    loadData();
 }
