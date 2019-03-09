@@ -120,10 +120,10 @@ function loadData(){
         type: 'GET',
         dataType: 'JSON',
         beforeSend: function(){
-            $('.progress').fadeIn();
+            $('.progress').show();
         },
         success: function(res){
-            $('.progress').fadeIn();
+            $('.progress').show();
             $('#amount').html(res.amount.toFixed(2));
             $('#units').html(res.units.toFixed(2));
             let data = formatData(res.data);
@@ -171,7 +171,7 @@ function loadData(){
             myChart.update();
         },
         complete: function(){
-            $('.progress').fadeOut();
+            $('.progress').hide();
         },
         error: function(){
             console.log('There was some error while requesting')

@@ -38,6 +38,7 @@
                     <input type="text" id="datepicker2">
                     <input type="hidden" id="type" value="year">
                     <button onClick="javascript:loadData()">Update</button>
+                    <?php echo $this->Html->image('loading.gif', ['alt' => 'Loading...', 'style' => 'width:25px;height:25px;', 'id' => 'progress', 'class' => 'progress']);?>
                 </div>
             </div>
         </div>
