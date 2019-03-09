@@ -23,11 +23,11 @@
                 </tr>
                 <tr>
                     <td>Total Units Comsumption</td>
-                    <td id="units">****</td>
+                    <td><span id="units">****</span><img src="/myapp/img/icons/success.jpg" style="margin-left:10px;width:15px;height:15px;" id="blinkImage"/></td>
                 </tr>
                 <tr>
                     <td>Expected Bill Amount</td>
-                    <td id="amount">****.**</td>
+                    <td><span id="amount">****.**</span></td>
                 </tr>
             </tbody>
         </table>
@@ -66,6 +66,14 @@
     $( "#datepicker2" ).datepicker({
         dateFormat: 'yy-mm-dd'
     });
-    
-  } );
+    setInterval(function(){
+        if($("#blinkImage").hasClass('show')){
+            $("#blinkImage").removeClass('show');
+            $("#blinkImage").addClass('hide');
+        }else{
+            $("#blinkImage").removeClass('hide');
+            $("#blinkImage").addClass('show');
+        }
+    }, 200);
+  });
   </script>

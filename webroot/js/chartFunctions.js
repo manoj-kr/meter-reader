@@ -34,6 +34,9 @@ loadData();
     loadData();
 }, 60000);
 */
+function getMonthName(num){
+    return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'][num];
+}
 function formatData(data){
     if(data.length === 0){
         return {labels: [], dataset: []};
@@ -67,7 +70,7 @@ function formatData(data){
                     returnData.dataset = [];
                 }
                 if(returnData.labels.indexOf(data[i]._id.month) === -1){
-                    returnData.labels.push(data[i]._id.month + ', '+ data[i]._id.year);
+                    returnData.labels.push(getMonthName(data[i]._id.month) + ', '+ data[i]._id.year);
                     returnData.dataset.push(data[i].count);
                 }else{
                     returnData.dataset[returnData.dataset.length - 1] += data[i].count;
@@ -83,7 +86,7 @@ function formatData(data){
                         returnData.dataset = [];
                     }
                     if(returnData.labels.indexOf(data[i]._id.day) === -1){
-                        returnData.labels.push(data[i]._id.day);
+                        returnData.labels.push(data[i]._id.day + '-'+ data[i]._id.month + '-'+ data[i]._id.year );
                         returnData.dataset.push(data[i].count);
                     }else{
                         returnData.dataset[returnData.dataset.length - 1] += data[i].count;
@@ -126,6 +129,14 @@ function loadData(){
             $('.progress').show();
             $('#amount').html(res.amount.toFixed(2));
             $('#units').html(res.units.toFixed(2));
+            if(res.units.toFixed(2) < 500){
+                $('#blinkImage').attr('src', '/myapp/img/icons/success.jpg');
+            }else if(res.units.toFixed(2) > 500 && res.units.toFixed(2) < 700){
+                $('#blinkImage').attr('src', '/myapp/img/icons/warning.jpg');
+            }else {
+                $('#blinkImage').attr('src', '/myapp/img/icons/danger.jpg');
+            }
+            
             let data = formatData(res.data);
             var ctx = document.getElementById("myChart").getContext('2d');
             let config = {
